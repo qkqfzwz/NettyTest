@@ -8,6 +8,7 @@ import com.example.nettytest.pub.protocol.ProtocolPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.timeout.ReadTimeoutException;
 
 public class NettyTestServerHandler extends ChannelInboundHandlerAdapter {
 
@@ -39,14 +40,17 @@ public class NettyTestServerHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 //        super.exceptionCaught(ctx, cause);
 //        cause.printStackTrace();
-        LogWork.Print(LogWork.DEBUG_MODULE,LogWork.LOG_TEMP_DBG,"Netty Sever Dev %s Caught err %s",devId,cause.getMessage());
-        ctx.close();
+        if(cause instanceof ReadTimeoutException) {
+            LogWork.Print(LogWork.BACKEND_NET_MODULE,LogWork.LOG_TEMP_DBG,"Netty Sever Dev %s Caught err %s",devId,cause.toString());
+            HandlerMgr.CleanBackEndChannel(devId, ctx.channel());
+            ctx.close();
+        }
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         if(!devId.isEmpty()){
-//            LogWork.Print(LogWork.BACKEND_NET_MODULE,LogWork.LOG_ERROR,"Dev %s TCP link Inactive from %s:%d",devId,HandlerMgr.GetBackEnd);
+            LogWork.Print(LogWork.BACKEND_NET_MODULE,LogWork.LOG_ERROR,"Dev %s TCP link Inactive ",devId);
 //            HandlerMgr.UpdateBackEndDevChannel(devId,null);
             HandlerMgr.CleanBackEndChannel(devId, ctx.channel());
         }

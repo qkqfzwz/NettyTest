@@ -11,11 +11,14 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 
 public class NettyTestServer {
 
-    private final int port;
 
+
+
+    private final int port;
 
     public NettyTestServer(int p){
         System.out.println("Create NettyTest Server");
@@ -31,6 +34,7 @@ public class NettyTestServer {
             server.group(leader, coder).channel(NioServerSocketChannel.class).childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) {
+                    socketChannel.pipeline().addLast(new ReadTimeoutHandler(180));
                     socketChannel.pipeline().addLast(new LineBasedFrameDecoder(0x10000));
                     socketChannel.pipeline().addLast(new NettyTestServerHandler());
 //                    socketChannel.pipeline().addLast(new NettyTestServerExceptionHandler());

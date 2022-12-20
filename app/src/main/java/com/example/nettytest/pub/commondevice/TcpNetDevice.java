@@ -54,23 +54,23 @@ public class TcpNetDevice extends NetDevice{
         return address;
     }
 
-    protected int GetChannelPort(Channel chn) {
-        int port = 0;
-        String address="";
-        String portStr;
-        if(chn!=null) {
-            address = chn.remoteAddress().toString();
-            if(address.contains("/")){
-                address = address.substring(address.indexOf('/')+1);
-            }
-            if(address.contains(":")){
-                portStr = address.substring(address.indexOf(':')+1);
-                port= Integer.parseInt(portStr);
-            }
-        }
-        
-        return port;
-    }
+//    protected int GetChannelPort(Channel chn) {
+//        int port = 0;
+//        String address="";
+//        String portStr;
+//        if(chn!=null) {
+//            address = chn.remoteAddress().toString();
+//            if(address.contains("/")){
+//                address = address.substring(address.indexOf('/')+1);
+//            }
+//            if(address.contains(":")){
+//                portStr = address.substring(address.indexOf(':')+1);
+//                port= Integer.parseInt(portStr);
+//            }
+//        }
+//        
+//        return port;
+//    }
 
     public boolean UpdateChannel(Channel ch){
         boolean result = false;
@@ -91,11 +91,11 @@ public class TcpNetDevice extends NetDevice{
         boolean result = false;
         
         if(channel!=null) {
-            if(GetChannelAddress(channel).compareToIgnoreCase(GetChannelAddress(ch))==0&&GetChannelPort(channel)==GetChannelPort(ch)) {
-                LogWork.Print(LogWork.BACKEND_NET_MODULE,LogWork.LOG_DEBUG,"Clear Dev %s Channel %s:%d ",id,GetChannelAddress(channel),GetChannelPort(channel));
+            if(GetChannelAddress(channel).compareToIgnoreCase(GetChannelAddress(ch))==0) {
+                LogWork.Print(LogWork.BACKEND_NET_MODULE,LogWork.LOG_DEBUG,"Clear Dev %s Channel %s:%d ",id,GetChannelAddress(channel));
                 channel = null;
             }else {
-                LogWork.Print(LogWork.BACKEND_NET_MODULE,LogWork.LOG_ERROR,"Not Clear Dev %s Channel %s:%d when the request is %s:%d",id,GetChannelAddress(channel),GetChannelPort(channel),GetChannelAddress(ch),GetChannelPort(ch));
+                LogWork.Print(LogWork.BACKEND_NET_MODULE,LogWork.LOG_ERROR,"Not Clear Dev %s Channel %s:%d when the request is %s:%d",id,GetChannelAddress(channel),GetChannelAddress(ch));
             }
         }
         
