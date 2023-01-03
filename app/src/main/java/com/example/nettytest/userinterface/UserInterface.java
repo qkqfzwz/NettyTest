@@ -326,8 +326,10 @@ public class UserInterface {
     public static OperationResult RemoveDevice(String id){
         OperationResult result = new OperationResult();
         TerminalPhone dev = HandlerMgr.GetPhoneDev(id);
+        if(dev!=null){
         if(dev.type== CALL_SERVER_BACKUP_DEVICE)
             UserInterface.StopServer();
+        }
         HandlerMgr.RemoveTerminalPhone(id);
         PrintLog("Remove Device %s ",id);
         return result;

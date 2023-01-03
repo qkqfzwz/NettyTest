@@ -27,11 +27,11 @@ public class LogWork {
 
     public final static int DEBUG_MODULE = 301;
 
-    public static boolean terminalPhoneModuleLogEnable = true;
+    public static boolean terminalPhoneModuleLogEnable = false;
     public static boolean terminalDeviceModuleLogEnable = false;
     public static boolean terminalNetModuleLogEnable = false;
     public static boolean terminalCallModuleLogEnable = false;
-    public static boolean terminalUserModuleLogEnable = true;
+    public static boolean terminalUserModuleLogEnable = false;
     public static boolean terminalAudioModuleLogEnable = false;
 
     public static boolean backEndPhoneModuleLogEnable = false;
@@ -54,7 +54,7 @@ public class LogWork {
 
     public final static String LOG_DEVICE = "50110001";
 
-    public static int dbgLevel = LOG_DEBUG;
+    public static int dbgLevel = LOG_ERROR;
 
     public static boolean bLogToFiles = false;
     private static long begineLogTime = System.currentTimeMillis();
